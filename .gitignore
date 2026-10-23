@@ -6,3 +6,8 @@ execution.log
 output/
 extracted_pdf_text/
 /*.pdf
+/data/*
+!/data/README.md
+/reports/*
+!/reports/.gitkeep
+/logs/*.log

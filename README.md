@@ -2,6 +2,8 @@
 
 The submission requirements extracted from the local PDFs are summarized in [assignment2_reference.md](assignment2_reference.md). The detailed test inventory is [test_cases.csv](test_cases.csv).
 
+The implementation follows the requested modular layout: `src/` contains the file reader, sales/customer validators, database connector, reconciliation, business rules, report generator, and pipeline entry point. The six focused test modules are in `tests/`.
+
 ## Environment
 
 Python 3.10+. From PowerShell at this repository root:
@@ -14,11 +16,18 @@ python -m pip install -r requirements.txt
 
 ## Run against the discovered lab files
 
-`config.example.json` points to the actual read-only lab inputs under `C:\qa-lab\python-project-2\input` and the verified `dm_distributor_sales_customer_360` MySQL table:
+Copy `config/config.example.json` to the ignored runtime file `config/config.json`. It points to read-only lab inputs under `C:\qa-lab\python-project-2\input` and the verified `dm_distributor_sales_customer_360` MySQL table:
 
 - `dim_Distributor_sales_50k.json`
 - `dim_Customer_Master_50k.txt` (comma-delimited despite its extension)
 - `Fact_Sales_50k_CSV.csv`
+
+Do not copy the input datasets into the repository; `data/README.md` explains the data-handling rule.
+Create the local runtime config:
+
+```powershell
+Copy-Item config/config.example.json config/config.json
+```
 
 Enter the password through a non-echoing SecureString prompt, then clear the environment variables when finished:
 
@@ -28,7 +37,7 @@ $passwordPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure
 try {
 	$env:P2_DB_USER = Read-Host 'Database user'
 	$env:P2_DB_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($passwordPointer)
-	python run_validation.py --config config.example.json
+	python run_validation.py --config config/config.json
 }
 finally {
 	Remove-Item Env:P2_DB_USER, Env:P2_DB_PASSWORD -ErrorAction SilentlyContinue
@@ -37,7 +46,7 @@ finally {
 }
 ```
 
-Each run writes `output/validation_details.csv`, `output/validation_summary.txt`, and `execution.log`. These local files are ignored and not included in the ZIP because row-level reports can contain business identifiers. The process exits nonzero when checks fail. The runner issues a configured read-only `SELECT`; it does not modify the database. Do not add passwords to config or reports. `sample_execution.txt` contains the sanitized summary of the verified run.
+Each run writes `reports/validation_results.csv`, `reports/reconciliation_report.csv`, `reports/qa_summary.html`, and `logs/execution.log`. Detailed reports are ignored and excluded from the ZIP because row-level data can contain sensitive identifiers. The process exits nonzero when checks fail. The runner issues a configured read-only `SELECT`; it does not modify the database. Do not put passwords in config or reports. `sample_execution.txt` contains the sanitized summary of the verified run.
 
 ## Run tests and demo
 

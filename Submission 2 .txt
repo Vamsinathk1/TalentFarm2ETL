@@ -4,7 +4,7 @@ Shared folder URL (must be accessible to mentors): PENDING - upload/share submis
 
 Completed test case sheet covering all validation layers: test_cases.csv
 Repository link or zipped code folder with Python scripts: submission2_package.zip
-Sample config with sensitive values removed: config.example.json
+Sample config with sensitive values removed: config/config.example.json
 Execution steps, setup, assumptions, dependencies, limitations: README.md and assignment2_reference.md
 Python package dependency list: requirements.txt
 Sample initial execution output: sample_execution.txt

@@ -93,10 +93,9 @@
     "source_policy_field": "policy_number",
     "master_policy_field": "policy_number"
   },
+  "business_rules": {},
   "validation": {
-    "amount_tolerance": 0.01,
-    "quantity_must_be_positive": true,
-    "unit_price_must_be_nonnegative": true
+    "amount_tolerance": 0.01
   },
-  "output_dir": "output"
+  "reports_dir": "../reports"
 }
