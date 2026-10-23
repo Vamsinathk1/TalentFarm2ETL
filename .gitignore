@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+.pytest_cache/
+config.json
+execution.log
+output/
+extracted_pdf_text/
+/*.pdf

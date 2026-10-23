@@ -1,0 +1,102 @@
+{
+  "inputs": {
+    "distributor_sales_json": "C:/qa-lab/python-project-2/input/dim_Distributor_sales_50k.json",
+    "customer_master_file": "C:/qa-lab/python-project-2/input/dim_Customer_Master_50k.txt"
+  },
+  "target": {
+    "mode": "mysql",
+    "query": "SELECT distributor_txn_id, sale_date, distributor_code, distributor_name, customer_id, customer_pan, product_code, product_name_raw, product_type_raw, policy_number, folio_number, gross_amount, commission_amount, region_code, status FROM dm_distributor_sales_customer_360",
+    "reconciliation_source": "distributor_sales_json"
+  },
+  "database": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "python_project2",
+    "user_env": "P2_DB_USER",
+    "password_env": "P2_DB_PASSWORD"
+  },
+  "columns": {
+    "transaction_id": "distributor_txn_id",
+    "customer_id": "customer_id",
+    "sales_amount": "gross_amount",
+    "sales_date": "sale_date",
+    "mandatory": [
+      "distributor_txn_id",
+      "sale_date",
+      "distributor_code",
+      "customer_id",
+      "product_code",
+      "gross_amount",
+      "commission_amount",
+      "policy_number",
+      "status"
+    ],
+    "numeric": ["gross_amount", "commission_amount"],
+    "compare_fields": [
+      "transaction_id",
+      "sales_date",
+      "customer_id",
+      "customer_pan",
+      "distributor_code",
+      "distributor_name",
+      "product_code",
+      "product_name_raw",
+      "product_type_raw",
+      "sales_amount",
+      "commission_amount",
+      "policy_number",
+      "folio_number",
+      "region_code",
+      "status"
+    ],
+    "source_columns": {
+      "transaction_id": "distributor_txn_id",
+      "sales_date": "sale_date",
+      "customer_id": "customer_id",
+      "customer_pan": "customer_pan",
+      "distributor_code": "distributor_code",
+      "distributor_name": "distributor_name",
+      "product_code": "product_code",
+      "product_name_raw": "product_name_raw",
+      "product_type_raw": "product_type_raw",
+      "sales_amount": "gross_amount",
+      "commission_amount": "commission_amount",
+      "policy_number": "policy_number",
+      "folio_number": "folio_number",
+      "region_code": "region_code",
+      "status": "status"
+    },
+    "target_columns": {
+      "transaction_id": "distributor_txn_id",
+      "sales_date": "sale_date",
+      "customer_id": "customer_id",
+      "customer_pan": "customer_pan",
+      "distributor_code": "distributor_code",
+      "distributor_name": "distributor_name",
+      "product_code": "product_code",
+      "product_name_raw": "product_name_raw",
+      "product_type_raw": "product_type_raw",
+      "sales_amount": "gross_amount",
+      "commission_amount": "commission_amount",
+      "policy_number": "policy_number",
+      "folio_number": "folio_number",
+      "region_code": "region_code",
+      "status": "status"
+    }
+  },
+  "customer_json": {
+    "records_key": null,
+    "id_field": "customer_id",
+    "active_field": "active_flag",
+    "active_values": ["Y", "1", "TRUE"],
+    "mandatory_fields": ["customer_id", "customer_key", "active_flag"],
+    "source_policy_field": "policy_number",
+    "master_policy_field": "policy_number"
+  },
+  "validation": {
+    "amount_tolerance": 0.01,
+    "quantity_must_be_positive": true,
+    "unit_price_must_be_nonnegative": true
+  },
+  "output_dir": "output"
+}

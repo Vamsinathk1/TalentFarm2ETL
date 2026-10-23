@@ -1,0 +1,36 @@
+Assignment 2 initial validation - actual lab data and MySQL mart
+Run date: 2026-10-23
+Target: python_project2.dm_distributor_sales_customer_360
+Source: C:\qa-lab\python-project-2\input\dim_Distributor_sales_50k.json
+Execution used read-only SELECT queries. Credential values are intentionally omitted.
+
+Summary
+-------
+Validation result rows: 40,594
+PASS: 13
+FAIL: 40,581
+BLOCKED: 0
+Process exit code: 1 (expected when validation failures are found)
+
+Reconciliation
+--------------
+Distributor source rows: 50,000
+Data mart rows: 45,076
+Unique source transaction IDs: 50,000
+Unique data mart transaction IDs: 45,076
+Source transactions missing from mart: 4,924
+Unexpected mart transactions: 0
+Matched transaction rows: 45,076
+
+Findings
+--------
+FAIL - Required source fields: 1,539 blank customer_id values.
+FAIL - Customer Master customer_id uniqueness: 2,525 rows participate in duplicate IDs (1,254 IDs have multiple keys).
+FAIL - Customer ID references: 44,753 unique nonblank sales customer IDs do not resolve to an active Customer Master customer_id.
+FAIL - Source/target row count: source 50,000; mart 45,076.
+FAIL - Missing target records: 4,924.
+FAIL - customer_pan: 40,575 of 45,076 matched records differ; the mart value is blank for those compared rows.
+
+Other compared fields (transaction ID, sale date, customer ID, distributor fields, product fields, gross and commission amounts, policy/folio numbers, region, and status) had no mismatches after treating null and blank optional values consistently. Policy references resolve across the source and customer files.
+
+This is an actual run against the supplied lab data and configured MySQL mart, not synthetic demo output. Row-level report files may contain business identifiers and are excluded from the submission ZIP; review them locally before sharing.
